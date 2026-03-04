@@ -17,6 +17,14 @@ type RuntimeEnv = {
   FEISHU_APP_SECRET?: string;
   FEISHU_BITABLE_APP_TOKEN?: string;
   FEISHU_BITABLE_TABLE_ID?: string;
+  FEISHU_FIELD_PLAN?: string;
+  FEISHU_FIELD_REGION?: string;
+  FEISHU_FIELD_CITY?: string;
+  FEISHU_FIELD_SCHEDULE?: string;
+  FEISHU_FIELD_NAME?: string;
+  FEISHU_FIELD_CONTACT?: string;
+  FEISHU_FIELD_NOTES?: string;
+  FEISHU_FIELD_SUBMITTED_AT?: string;
 };
 
 const planMap: Record<string, string> = {
@@ -49,6 +57,17 @@ const formatBookingText = (payload: BookingPayload) =>
 
 const hasFeishuBitableConfig = (env?: RuntimeEnv) =>
   Boolean(env?.FEISHU_APP_ID && env?.FEISHU_APP_SECRET && env?.FEISHU_BITABLE_APP_TOKEN && env?.FEISHU_BITABLE_TABLE_ID);
+
+const getFieldNameMap = (env: RuntimeEnv) => ({
+  plan: env.FEISHU_FIELD_PLAN || "套餐",
+  region: env.FEISHU_FIELD_REGION || "地区",
+  city: env.FEISHU_FIELD_CITY || "城市",
+  schedule: env.FEISHU_FIELD_SCHEDULE || "上门时间",
+  name: env.FEISHU_FIELD_NAME || "联系人",
+  contact: env.FEISHU_FIELD_CONTACT || "联系方式",
+  notes: env.FEISHU_FIELD_NOTES || "备注",
+  submittedAt: env.FEISHU_FIELD_SUBMITTED_AT || "提交时间"
+});
 
 const formatSubmittedAt = () =>
   new Intl.DateTimeFormat("zh-CN", {
@@ -94,6 +113,7 @@ const getFeishuTenantAccessToken = async (env: RuntimeEnv) => {
 const createFeishuBitableRecord = async (env: RuntimeEnv, payload: BookingPayload) => {
   const token = await getFeishuTenantAccessToken(env);
   const submittedAt = formatSubmittedAt();
+  const fieldNames = getFieldNameMap(env);
   const response = await fetch(
     `https://open.feishu.cn/open-apis/bitable/v1/apps/${env.FEISHU_BITABLE_APP_TOKEN}/tables/${env.FEISHU_BITABLE_TABLE_ID}/records`,
     {
@@ -104,14 +124,14 @@ const createFeishuBitableRecord = async (env: RuntimeEnv, payload: BookingPayloa
       },
       body: JSON.stringify({
         fields: {
-          套餐: planMap[payload.plan] ?? payload.plan,
-          地区: payload.region,
-          城市: payload.city,
-          上门时间: payload.schedule,
-          联系人: payload.name,
-          联系方式: payload.contact,
-          备注: payload.notes?.trim() || "",
-          提交时间: submittedAt
+          [fieldNames.plan]: planMap[payload.plan] ?? payload.plan,
+          [fieldNames.region]: payload.region,
+          [fieldNames.city]: payload.city,
+          [fieldNames.schedule]: payload.schedule,
+          [fieldNames.name]: payload.name,
+          [fieldNames.contact]: payload.contact,
+          [fieldNames.notes]: payload.notes?.trim() || "",
+          [fieldNames.submittedAt]: submittedAt
         }
       })
     }

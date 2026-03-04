@@ -244,14 +244,14 @@ const processItems = [
           <p class="section-label">预约表单</p>
           <h2>把你的需求发过来，我们按城市和套餐安排。</h2>
           <p>
-            如果你已经知道自己想接哪个聊天入口，或者想专门拿 Mac mini 做长期运行的助手，可以直接写在备注里。预约信息会提交到你配置的 webhook。
+            如果你已经知道自己想接哪个聊天入口，或者想专门拿 Mac mini 做长期运行的助手，可以直接写在备注里。我们收到后会尽快联系你确认时间和方案。
           </p>
           <div class="booking-panel">
             <div>
-              <span class="booking-panel-label">推荐预约流转</span>
-              <strong>飞书群机器人 webhook</strong>
+              <span class="booking-panel-label">预约说明</span>
+              <strong>提交后会尽快联系你确认</strong>
             </div>
-            <p>也支持任意通用 webhook，例如 n8n、Slack、Discord、自建接口。</p>
+            <p>建议把设备情况、想接入的聊天工具，以及希望上门的时间窗口写清楚，安排会更快。</p>
           </div>
         </div>
 
@@ -367,7 +367,7 @@ const processItems = [
         planSelect.value = "standard";
         statusNode.textContent = "预约信息已发送，我们会尽快联系你确认。";
       } catch (error) {
-        statusNode.textContent = error.message || "预约提交失败，请检查 webhook 配置。";
+        statusNode.textContent = error.message || "预约提交失败，请稍后再试。";
       } finally {
         form.classList.remove("is-submitting");
       }

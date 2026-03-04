@@ -42,6 +42,17 @@ npm run dev
   - `feishu` 或 `generic`
   - 默认 `feishu`
 
+如果你的多维表格列名不是下面这些默认中文名，可以继续配置：
+
+- `FEISHU_FIELD_PLAN`
+- `FEISHU_FIELD_REGION`
+- `FEISHU_FIELD_CITY`
+- `FEISHU_FIELD_SCHEDULE`
+- `FEISHU_FIELD_NAME`
+- `FEISHU_FIELD_CONTACT`
+- `FEISHU_FIELD_NOTES`
+- `FEISHU_FIELD_SUBMITTED_AT`
+
 ## 部署
 
 ```bash
@@ -62,6 +73,8 @@ npm run deploy
 - `提交时间`
 
 当前代码会按这些字段名直接写入一行记录。
+
+如果你实际列名不同，例如你表里叫 `套餐类型`、`预约区域`、`联系电话`，就把对应的 `FEISHU_FIELD_*` 环境变量改成你的真实列名。
 
 ## 可选 webhook 通知
 
