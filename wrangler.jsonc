@@ -1,0 +1,11 @@
+{
+  "name": "openclaw-landing",
+  "main": "dist/_worker.js/index.js",
+  "compatibility_date": "2026-03-04",
+  "assets": {
+    "directory": "dist"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,8 @@
+FEISHU_APP_ID=cli_xxxxxxxxxxxxx
+FEISHU_APP_SECRET=xxxxxxxxxxxxx
+FEISHU_BITABLE_APP_TOKEN=bascnxxxxxxxxxxxxx
+FEISHU_BITABLE_TABLE_ID=tblxxxxxxxxxxxxx
+
+# 可选：如果你还想在写入多维表格后顺便发一条提醒消息
+# BOOKING_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/your-webhook-id
+# BOOKING_WEBHOOK_TYPE=feishu

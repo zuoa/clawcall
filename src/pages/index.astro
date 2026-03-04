@@ -1,0 +1,376 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const packages = [
+  {
+    value: "standard",
+    badge: "本地快装",
+    price: "499",
+    title: "轻松上手",
+    description: "适合第一次用 OpenClaw 的个人用户。我们上门帮你装好、配好，并让你当天就能从手机上真正用起来。",
+    highlights: ["安装 OpenClaw 并完成首次设置", "处理 macOS 权限与首次引导", "跑通 1 个聊天入口和第一条可用指令"]
+  },
+  {
+    value: "nationwide",
+    badge: "旗舰调度",
+    price: "5000",
+    title: "全国可飞",
+    description: "适合想一步到位的人。跨城上门，把专用账号、使用边界、稳定运行和第一套工作方式一次整理好。",
+    highlights: ["判断最适合你的运行方案", "配置专用账号、白名单和使用边界", "交付可长期使用的第一套流程"]
+  },
+  {
+    value: "bundle",
+    badge: "一站到位",
+    price: "8999",
+    title: "送 Mac mini",
+    description: "适合希望稳定长期使用的人。直接给 OpenClaw 配一台专用主机，减少睡眠、重启和权限混乱带来的中断。",
+    highlights: ["含一台 Mac mini 作为专用主机", "预装 OpenClaw 和常用聊天入口", "交付一套可直接使用的私人助手"]
+  }
+];
+
+const regions = [
+  "北京 / 天津",
+  "上海 / 苏州 / 杭州",
+  "广州 / 深圳 / 佛山",
+  "成都 / 重庆",
+  "武汉 / 长沙",
+  "西安 / 郑州",
+  "全国其他城市"
+];
+
+const serviceItems = [
+  "判断 OpenClaw 更适合跑在你的电脑、专用主机，还是远程环境上",
+  "完成安装和首次设置，把最容易卡住的引导流程一次走完",
+  "现场处理 macOS 权限弹窗，避免你反复试错",
+  "帮你设计专用账号和使用范围，尽量把私人聊天与助手入口分开",
+  "把白名单、配对和日常运行方式整理好，减少后续不稳定和误触发",
+  "现场跑通一个真实场景，让你离开时已经知道它怎么用、能帮你做什么"
+];
+
+const painPoints = [
+  {
+    title: "不是不会买，是第一次太难配",
+    text: "OpenClaw 难的不是下载，而是第一次把权限、聊天入口和日常运行方式都配对。"
+  },
+  {
+    title: "直接拿私人号接入，不安心",
+    text: "官方更推荐使用专用号码或专用账号。多数普通用户不知道边界该怎么设，容易把入口开得太大。"
+  },
+  {
+    title: "电脑能跑，不代表一直稳",
+    text: "本机当然可以用，但共享电脑休眠、更新、切账号时都可能中断，专用主机通常更省心。"
+  },
+  {
+    title: "权限弹窗最劝退普通人",
+    text: "macOS 首次配置会碰到一连串权限确认，对非技术用户尤其不友好，也最容易在这里放弃。"
+  }
+];
+
+const processItems = [
+  {
+    index: "01",
+    title: "预约",
+    text: "选择套餐、地区和时间窗口，告诉我们你想接哪个聊天入口、准备用哪台机器跑。"
+  },
+  {
+    index: "02",
+    title: "预检",
+    text: "工程师会提前确认机器类型、系统权限、专用号码方案和你要实现的第一条真实指令。"
+  },
+  {
+    index: "03",
+    title: "上门",
+    text: "按约上门安装 OpenClaw、处理权限、完成配对和安全边界配置，复杂方案可现场微调。"
+  },
+  {
+    index: "04",
+    title: "验收",
+    text: "你现场从手机发出第一条指令并确认可用后完成交付，后续问题继续在线跟进。"
+  }
+];
+---
+
+<MainLayout
+  title="Openclaw 上门安装服务"
+  description="499 起预约 Openclaw 工程师上门安装，全国可飞，8999 套餐送 Mac mini。"
+>
+  <main class="page-shell">
+    <section class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-runway hero-runway-left"></div>
+      <div class="hero-runway hero-runway-right"></div>
+      <div class="container hero-content">
+        <div class="eyebrow">OPENCLAW FIELD SERVICE / ON-SITE DEPLOYMENT</div>
+        <div class="hero-copy">
+          <p class="hero-kicker">今天下单，工程师飞到你家。</p>
+          <h1>
+            <span>让 OpenClaw 不只是装上，</span>
+            <span>而是今天就能用起来。</span>
+          </h1>
+          <p class="hero-description">
+            OpenClaw 不是普通软件安装，它更像是在给你交付一个可以通过聊天直接调用的私人助手。你不用自己研究权限弹窗、专用账号、稳定运行这些细节，我们把它整理好，再交到你手里。
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#booking">立即预约</a>
+          <a class="button button-secondary" href="#packages">查看套餐</a>
+        </div>
+        <div class="hero-pricing">
+          {packages.map((item) => (
+            <article class="price-card" data-plan-option={item.value} data-package-card={item.value}>
+              <span class="price-badge">{item.badge}</span>
+              <div class="price-line">
+                <span class="price-currency">¥</span>
+                <strong>{item.price}</strong>
+              </div>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-band">
+      <div class="container trust-grid">
+        <div>
+          <span class="trust-number">2h</span>
+          <p>标准城市可约上门时长</p>
+        </div>
+        <div>
+          <span class="trust-number">7d</span>
+          <p>交付后的在线答疑窗口</p>
+        </div>
+        <div>
+          <span class="trust-number">NATIONWIDE</span>
+          <p>旗舰服务支持全国核心城市飞行调度</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-story">
+      <div class="container two-column">
+        <div class="section-heading">
+          <p class="section-label">普通用户真正卡住的地方</p>
+          <h2>难点不是“装上”，而是把 OpenClaw 交付成一个真的助手。</h2>
+        </div>
+        <div class="story-card">
+          <p>
+            我们不是来帮你“装个软件”，而是把 OpenClaw 的第一套使用方式整理对。你不需要懂很多技术术语，只需要告诉我们你希望它帮你做什么，我们负责把第一次落地做顺。
+          </p>
+          <ul class="service-list">
+            {serviceItems.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-pain">
+      <div class="container">
+        <div class="section-heading compact">
+          <p class="section-label">我们解决什么</p>
+          <h2>把最容易劝退普通用户的四件事，现场处理掉。</h2>
+        </div>
+        <div class="process-grid pain-grid">
+          {painPoints.map((item, index) => (
+            <article class="process-card pain-card">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="packages">
+      <div class="container">
+        <div class="section-heading compact">
+          <p class="section-label">套餐选择</p>
+          <h2>按你是想先轻松上手，还是一步到位长期用来选。</h2>
+        </div>
+        <div class="package-grid">
+          {packages.map((item) => (
+            <article
+              class="package-card"
+              id={`package-${item.value}`}
+              data-plan-option={item.value}
+              data-package-card={item.value}
+            >
+              <div class="package-topline">
+                <span class="price-badge">{item.badge}</span>
+                <span class="package-id">{item.value.toUpperCase()}</span>
+              </div>
+              <div class="package-price">
+                <span>¥</span>
+                <strong>{item.price}</strong>
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <ul>
+                {item.highlights.map((highlight) => (
+                  <li>{highlight}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-process">
+      <div class="container">
+        <div class="section-heading compact">
+          <p class="section-label">服务流程</p>
+          <h2>不是装完就走，而是让你当场会用、之后也能继续用。</h2>
+        </div>
+        <div class="process-grid">
+          {processItems.map((item) => (
+            <article class="process-card">
+              <span>{item.index}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-booking" id="booking">
+      <div class="container booking-grid">
+        <div class="booking-copy">
+          <p class="section-label">预约表单</p>
+          <h2>把你的需求发过来，我们按城市和套餐安排。</h2>
+          <p>
+            如果你已经知道自己想接哪个聊天入口，或者想专门拿 Mac mini 做长期运行的助手，可以直接写在备注里。预约信息会提交到你配置的 webhook。
+          </p>
+          <div class="booking-panel">
+            <div>
+              <span class="booking-panel-label">推荐预约流转</span>
+              <strong>飞书群机器人 webhook</strong>
+            </div>
+            <p>也支持任意通用 webhook，例如 n8n、Slack、Discord、自建接口。</p>
+          </div>
+        </div>
+
+        <form class="booking-form" id="booking-form">
+          <div class="field-group">
+            <label for="plan">选择套餐</label>
+            <select id="plan" name="plan" required>
+              <option value="standard">499 上门安装</option>
+              <option value="nationwide">5000 全国可飞</option>
+              <option value="bundle">8999 送 Mac mini</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="region">所在地区</label>
+            <select id="region" name="region" required>
+              {regions.map((region) => (
+                <option value={region}>{region}</option>
+              ))}
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="city">具体城市 / 区域</label>
+            <input id="city" name="city" type="text" placeholder="例如：上海浦东 / 成都高新区" required />
+          </div>
+
+          <div class="field-group">
+            <label for="schedule">希望上门时间</label>
+            <input id="schedule" name="schedule" type="text" placeholder="例如：本周六下午 / 3 月 10 日之后" required />
+          </div>
+
+          <div class="field-group">
+            <label for="name">联系人姓名</label>
+            <input id="name" name="name" type="text" placeholder="怎么称呼你" required />
+          </div>
+
+          <div class="field-group">
+            <label for="contact">手机号 / 微信</label>
+            <input id="contact" name="contact" type="text" placeholder="用于回访确认" required />
+          </div>
+
+          <div class="field-group full-width">
+            <label for="notes">补充说明</label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="4"
+              placeholder="可以写设备数量、是否已有显示器、是否需要数据迁移、现场停车条件等"
+            ></textarea>
+          </div>
+
+          <button class="button button-primary submit-button" type="submit">提交预约</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    const planSelect = document.querySelector("#plan");
+    const form = document.querySelector("#booking-form");
+    const statusNode = document.querySelector("#form-status");
+    const cards = Array.from(document.querySelectorAll("[data-package-card]"));
+    const planOptions = Array.from(document.querySelectorAll("[data-plan-option]"));
+
+    const syncCards = (value) => {
+      cards.forEach((card) => {
+        card.classList.toggle("is-selected", card.dataset.packageCard === value);
+      });
+    };
+
+    syncCards(planSelect.value);
+    planSelect.addEventListener("change", (event) => {
+      syncCards(event.target.value);
+    });
+
+    planOptions.forEach((option) => {
+      option.addEventListener("click", () => {
+        const value = option.dataset.planOption;
+        if (!value) return;
+        planSelect.value = value;
+        syncCards(value);
+        document.querySelector("#booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      statusNode.textContent = "正在提交预约...";
+      form.classList.add("is-submitting");
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch("/api/book", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "预约提交失败，请稍后再试。");
+        }
+
+        form.reset();
+        syncCards("standard");
+        planSelect.value = "standard";
+        statusNode.textContent = "预约信息已发送，我们会尽快联系你确认。";
+      } catch (error) {
+        statusNode.textContent = error.message || "预约提交失败，请检查 webhook 配置。";
+      } finally {
+        form.classList.remove("is-submitting");
+      }
+    });
+  </script>
+</MainLayout>
