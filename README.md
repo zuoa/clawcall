@@ -53,6 +53,12 @@ npm run dev
 - `FEISHU_FIELD_NOTES`
 - `FEISHU_FIELD_SUBMITTED_AT`
 
+SEO 推荐再配置一个公开变量（用于 canonical、sitemap、结构化数据）：
+
+- `PUBLIC_SITE_URL`
+  - 建议填写你的正式域名，例如 `https://your-domain.com`
+  - 不要带结尾 `/`
+
 ## 部署
 
 ```bash
@@ -97,3 +103,19 @@ npm run deploy
   "text": "Openclaw 新预约..."
 }
 ```
+
+## SEO 最佳实践（已落地）
+
+- 全局 canonical、Open Graph、Twitter Card、`robots` 指令已配置
+- 已添加结构化数据：`WebSite`、`Organization`、`WebPage`、`Service`、`FAQPage`
+- 已添加 `robots.txt`（允许抓取页面，屏蔽 `/api/`）
+- 已添加 `sitemap.xml`（当前收录首页）
+- API 响应已加 `X-Robots-Tag: noindex`
+- 已补充 `favicon` 与默认社交分享图 `og-image.svg`
+
+上线后建议手动完成：
+
+1. 在 Google Search Console/Bing Webmaster 提交 `https://你的域名/sitemap.xml`
+2. 在百度搜索资源平台提交站点与 sitemap
+3. 以真实域名验证 `PUBLIC_SITE_URL`，避免 canonical 指向错误域名
+4. 用 Rich Results Test 验证 FAQ/Service 结构化数据

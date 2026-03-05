@@ -88,11 +88,103 @@ const processItems = [
     text: "你现场从手机发出第一条指令并确认可用后完成交付，后续问题继续在线跟进。"
   }
 ];
+
+const faqItems = [
+  {
+    question: "OpenClaw 上门安装和普通远程指导有什么区别？",
+    answer:
+      "远程指导通常要求你自己处理权限、网络和入口配置。上门服务会把设备检查、权限处理、聊天入口配对和第一条真实任务一次落地，减少反复试错。"
+  },
+  {
+    question: "一定要专用设备吗？可以直接用我自己的电脑吗？",
+    answer:
+      "可以直接用你的电脑启动，但如果希望长期稳定运行，建议使用专用主机。专用设备能降低休眠、更新、切账号导致中断的风险。"
+  },
+  {
+    question: "全国可飞套餐包含哪些内容？",
+    answer:
+      "全国可飞套餐会覆盖跨城调度、设备与账号预检、上门安装、使用边界设置和交付验收，重点是把 OpenClaw 变成一套可持续使用的工作流。"
+  },
+  {
+    question: "提交预约后多久会联系？",
+    answer:
+      "预约提交后会尽快联系你确认城市、时间窗口和设备信息。信息越完整，排期越快。标准城市通常能更快安排上门。"
+  }
+];
+
+const siteOrigin = String(import.meta.env.PUBLIC_SITE_URL || Astro.url.origin).replace(/\/$/, "");
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${siteOrigin}/#webpage`,
+    url: `${siteOrigin}/`,
+    name: "Openclaw 上门安装服务",
+    description: "499 起预约 Openclaw 工程师上门安装，全国可飞，8999 套餐送 Mac mini。",
+    inLanguage: "zh-CN",
+    isPartOf: {
+      "@id": `${siteOrigin}/#website`
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${siteOrigin}/#service`,
+    name: "OpenClaw 上门安装服务",
+    description: "面向个人用户的 OpenClaw 上门安装、配置、专用账号边界设置与首个场景交付服务。",
+    serviceType: "OpenClaw 安装部署与咨询",
+    areaServed: "CN",
+    provider: {
+      "@id": `${siteOrigin}/#organization`
+    },
+    offers: [
+      {
+        "@type": "Offer",
+        name: "轻松上手",
+        price: "499",
+        priceCurrency: "CNY",
+        availability: "https://schema.org/InStock",
+        url: `${siteOrigin}/#package-standard`
+      },
+      {
+        "@type": "Offer",
+        name: "全国可飞",
+        price: "5000",
+        priceCurrency: "CNY",
+        availability: "https://schema.org/InStock",
+        url: `${siteOrigin}/#package-nationwide`
+      },
+      {
+        "@type": "Offer",
+        name: "送 Mac mini",
+        price: "8999",
+        priceCurrency: "CNY",
+        availability: "https://schema.org/InStock",
+        url: `${siteOrigin}/#package-bundle`
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteOrigin}/#faq`,
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer
+      }
+    }))
+  }
+];
 ---
 
 <MainLayout
   title="Openclaw 上门安装服务"
   description="499 起预约 Openclaw 工程师上门安装，全国可飞，8999 套餐送 Mac mini。"
+  canonicalPath="/"
+  structuredData={structuredData}
 >
   <main class="page-shell">
     <section class="hero">
@@ -232,6 +324,23 @@ const processItems = [
               <span>{item.index}</span>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-faq" id="faq">
+      <div class="container">
+        <div class="section-heading compact">
+          <p class="section-label">常见问题</p>
+          <h2>预约前最常问的四个问题。</h2>
+        </div>
+        <div class="faq-grid">
+          {faqItems.map((item) => (
+            <article class="faq-card">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
             </article>
           ))}
         </div>

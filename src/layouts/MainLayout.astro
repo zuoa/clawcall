@@ -1,15 +1,59 @@
 ---
 import "../styles/global.css";
 
+type JsonLd = Record<string, unknown>;
+
 interface Props {
   title?: string;
   description?: string;
+  canonicalPath?: string;
+  ogType?: "website" | "article";
+  image?: string;
+  noindex?: boolean;
+  structuredData?: JsonLd | JsonLd[];
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
 const {
   title = "Openclaw 上门安装服务",
-  description = "499 起预约 Openclaw 工程师上门安装，全国可飞，旗舰套餐送 Mac mini。"
+  description = "499 起预约 Openclaw 工程师上门安装，全国可飞，旗舰套餐送 Mac mini。",
+  canonicalPath,
+  ogType = "website",
+  image = "/og-image.svg",
+  noindex = false,
+  structuredData = [],
+  publishedTime,
+  modifiedTime
 } = Astro.props;
+
+const siteName = "OpenClaw 上门安装服务";
+const fallbackSiteUrl = import.meta.env.PUBLIC_SITE_URL;
+const siteOrigin = String(fallbackSiteUrl || Astro.url.origin).replace(/\/$/, "");
+const canonicalUrl = new URL(canonicalPath || Astro.url.pathname, `${siteOrigin}/`).toString();
+const imageUrl = image ? new URL(image, `${siteOrigin}/`).toString() : "";
+const robotsContent = noindex
+  ? "noindex, nofollow, noarchive, max-snippet:-1, max-image-preview:none, max-video-preview:0"
+  : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
+const jsonLdList = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteOrigin}/#website`,
+    url: `${siteOrigin}/`,
+    name: siteName,
+    inLanguage: "zh-CN"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${siteOrigin}/#organization`,
+    name: siteName,
+    url: `${siteOrigin}/`,
+    sameAs: ["https://x.com/ijedyu", "https://github.com/zuoa"]
+  },
+  ...(Array.isArray(structuredData) ? structuredData : [structuredData]).filter(Boolean)
+];
 ---
 
 <!doctype html>
@@ -19,13 +63,38 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="googlebot" content={robotsContent} />
     <meta name="theme-color" content="#0b1019" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no,address=no,email=no" />
+    <meta name="author" content="OpenClaw Field Service" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="zh-CN" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    <meta name="twitter:card" content={imageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Noto+Serif+SC:wght@500;700;900&display=swap"
       rel="stylesheet"
     />
+    {jsonLdList.map((schema) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+    ))}
   </head>
   <body>
     <slot />

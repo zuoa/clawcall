@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#09111b" />
+      <stop offset="100%" stop-color="#0d1e30" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#f8bf4d" />
+      <stop offset="100%" stop-color="#8fd0ff" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1080" cy="90" r="220" fill="#f8bf4d" opacity="0.14" />
+  <circle cx="60" cy="620" r="300" fill="#8fd0ff" opacity="0.14" />
+  <text x="86" y="174" fill="#f8bf4d" font-size="34" font-family="Arial, sans-serif" letter-spacing="4">OPENCLAW FIELD SERVICE</text>
+  <text x="86" y="286" fill="#ffffff" font-size="78" font-family="Arial, sans-serif" font-weight="700">OpenClaw 上门安装服务</text>
+  <text x="86" y="376" fill="#d6e4f4" font-size="42" font-family="Arial, sans-serif">499 起预约 · 全国可飞 · 旗舰套餐送 Mac mini</text>
+  <rect x="86" y="436" width="420" height="8" rx="4" fill="url(#accent)" />
+  <text x="86" y="520" fill="#ffffff" font-size="34" font-family="Arial, sans-serif">今天预约，今天把第一条可用指令跑通</text>
+</svg>

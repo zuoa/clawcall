@@ -39,7 +39,8 @@ const json = (status: number, body: Record<string, unknown>) =>
   new Response(JSON.stringify(body), {
     status,
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Robots-Tag": "noindex, nofollow, noarchive"
     }
   });
 
