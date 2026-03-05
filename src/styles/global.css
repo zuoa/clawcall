@@ -512,6 +512,56 @@ a {
   pointer-events: none;
 }
 
+.site-footer {
+  padding: 18px 0 38px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted);
+}
+
+.footer-content p {
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-links a {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(248, 191, 77, 0.52);
+  text-underline-offset: 4px;
+}
+
+.footer-link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
 @media (max-width: 1080px) {
   .hero-pricing,
   .package-grid,
@@ -565,6 +615,12 @@ a {
   .price-line strong,
   .package-price strong {
     font-size: 3rem;
+  }
+
+  .footer-content,
+  .footer-links {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero h1 span {
