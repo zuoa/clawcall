@@ -1,7 +1,10 @@
+# 方式 A：写入飞书多维表格时，需要完整配置下面 4 个变量
 FEISHU_APP_ID=cli_xxxxxxxxxxxxx
 FEISHU_APP_SECRET=xxxxxxxxxxxxx
 FEISHU_BITABLE_APP_TOKEN=bascnxxxxxxxxxxxxx
 FEISHU_BITABLE_TABLE_ID=tblxxxxxxxxxxxxx
+
+# 可选：如果你的多维表格字段名不是默认值，再继续配置下面这些映射
 FEISHU_FIELD_PLAN=套餐
 FEISHU_FIELD_REGION=地区
 FEISHU_FIELD_CITY=城市
@@ -11,6 +14,9 @@ FEISHU_FIELD_CONTACT=联系方式
 FEISHU_FIELD_NOTES=备注
 FEISHU_FIELD_SUBMITTED_AT=提交时间
 
-# 可选：如果你还想在写入多维表格后顺便发一条提醒消息
+# 方式 B：如果你暂时不写多维表格，只想转发到 webhook，可以只配置这一项
+# BOOKING_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/your-webhook-id
+
+# 可选：写入多维表格后，额外发一条 webhook 提醒
 # BOOKING_WEBHOOK_URL=https://open.feishu.cn/open-apis/bot/v2/hook/your-webhook-id
 # BOOKING_WEBHOOK_TYPE=feishu

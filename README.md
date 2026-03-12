@@ -15,28 +15,49 @@ npm install
 npm run dev
 ```
 
+如果你要联调 `/api/book` 里的飞书/ webhook 写入，先复制一份本地变量文件：
+
+```bash
+cp .dev.vars.example .dev.vars
+```
+
+当前项目支持两种本地运行方式：
+
+- `npm run dev`
+  - 使用 Astro 开发服务器
+  - 现在也会回退读取本机 `process.env`，适合普通页面开发
+- `npm run preview`
+  - 先构建，再用 `wrangler dev` 启动 Worker
+  - 更接近 Cloudflare 线上环境，联调 `/api/book` 时更推荐
+
 ## 环境变量
 
-本地开发可创建 `.dev.vars`，线上在 Cloudflare Workers 中配置以下变量：
+本地开发可创建 `.dev.vars`，线上在 Cloudflare Workers 中配置以下变量。
+
+至少满足下面两种方式之一：
+
+方式 A：写入飞书多维表格
 
 - `FEISHU_APP_ID`
-  - 必填
   - 飞书自建应用的 App ID
 - `FEISHU_APP_SECRET`
-  - 必填
   - 飞书自建应用的 App Secret
 - `FEISHU_BITABLE_APP_TOKEN`
-  - 必填
   - 多维表格所属应用的 `app_token`
 - `FEISHU_BITABLE_TABLE_ID`
-  - 必填
   - 具体数据表的 `table_id`
 
-可选：
+方式 B：只发 webhook 通知
+
+- `BOOKING_WEBHOOK_URL`
+  - 可只配置这一项
+  - 适合暂时不接多维表格，只把预约转发到飞书机器人或你自己的 webhook
+
+附加可选项：
 
 - `BOOKING_WEBHOOK_URL`
   - 可选
-  - 如果你还想在写入多维表格后同步发一条飞书群提醒，可以配置机器人 webhook
+  - 如果你已经配置了多维表格，又想额外同步发一条飞书群提醒，可以继续配置机器人 webhook
 - `BOOKING_WEBHOOK_TYPE`
   - 可选
   - `feishu` 或 `generic`

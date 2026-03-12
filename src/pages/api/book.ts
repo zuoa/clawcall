@@ -27,6 +27,23 @@ type RuntimeEnv = {
   FEISHU_FIELD_SUBMITTED_AT?: string;
 };
 
+const runtimeEnvKeys = [
+  "BOOKING_WEBHOOK_URL",
+  "BOOKING_WEBHOOK_TYPE",
+  "FEISHU_APP_ID",
+  "FEISHU_APP_SECRET",
+  "FEISHU_BITABLE_APP_TOKEN",
+  "FEISHU_BITABLE_TABLE_ID",
+  "FEISHU_FIELD_PLAN",
+  "FEISHU_FIELD_REGION",
+  "FEISHU_FIELD_CITY",
+  "FEISHU_FIELD_SCHEDULE",
+  "FEISHU_FIELD_NAME",
+  "FEISHU_FIELD_CONTACT",
+  "FEISHU_FIELD_NOTES",
+  "FEISHU_FIELD_SUBMITTED_AT"
+] as const satisfies Array<keyof RuntimeEnv>;
+
 const planMap: Record<string, string> = {
   standard: "499 上门安装",
   nationwide: "5000 全国可飞",
@@ -44,6 +61,50 @@ const json = (status: number, body: Record<string, unknown>) =>
     }
   });
 
+const getProcessEnv = (): RuntimeEnv | undefined => {
+  const processEnv = (globalThis as typeof globalThis & {
+    process?: {
+      env?: Record<string, string | undefined>;
+    };
+  }).process?.env;
+
+  if (!processEnv) {
+    return undefined;
+  }
+
+  const env: RuntimeEnv = {};
+
+  for (const key of runtimeEnvKeys) {
+    const value = processEnv[key];
+
+    if (value) {
+      if (key === "BOOKING_WEBHOOK_TYPE") {
+        if (value === "feishu" || value === "generic") {
+          env[key] = value;
+        }
+      } else {
+        env[key] = value;
+      }
+    }
+  }
+
+  return env;
+};
+
+const getRuntimeEnv = (locals: unknown): RuntimeEnv | undefined => {
+  const runtime = (locals as { runtime?: { env?: RuntimeEnv } }).runtime;
+  const processEnv = getProcessEnv();
+
+  if (!runtime?.env) {
+    return processEnv;
+  }
+
+  return {
+    ...processEnv,
+    ...runtime.env
+  };
+};
+
 const formatBookingText = (payload: BookingPayload) =>
   [
     "Openclaw 新预约",
@@ -58,6 +119,27 @@ const formatBookingText = (payload: BookingPayload) =>
 
 const hasFeishuBitableConfig = (env?: RuntimeEnv) =>
   Boolean(env?.FEISHU_APP_ID && env?.FEISHU_APP_SECRET && env?.FEISHU_BITABLE_APP_TOKEN && env?.FEISHU_BITABLE_TABLE_ID);
+
+const getMissingFeishuBitableKeys = (env?: RuntimeEnv) => {
+  const requiredKeys: Array<keyof RuntimeEnv> = [
+    "FEISHU_APP_ID",
+    "FEISHU_APP_SECRET",
+    "FEISHU_BITABLE_APP_TOKEN",
+    "FEISHU_BITABLE_TABLE_ID"
+  ];
+
+  return requiredKeys.filter((key) => !env?.[key]);
+};
+
+const getConfigErrorMessage = (env?: RuntimeEnv) => {
+  if (env?.BOOKING_WEBHOOK_URL || hasFeishuBitableConfig(env)) {
+    return null;
+  }
+
+  const missingKeys = getMissingFeishuBitableKeys(env);
+
+  return `缺少环境变量配置：请至少配置 BOOKING_WEBHOOK_URL，或完整配置 FEISHU_APP_ID、FEISHU_APP_SECRET、FEISHU_BITABLE_APP_TOKEN、FEISHU_BITABLE_TABLE_ID。当前缺少：${missingKeys.join(", ")}`;
+};
 
 const getFieldNameMap = (env: RuntimeEnv) => ({
   plan: env.FEISHU_FIELD_PLAN || "套餐",
@@ -239,13 +321,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json(400, { ok: false, message: validationError });
   }
 
-  const runtime = (locals as { runtime?: { env?: RuntimeEnv } }).runtime;
-  const env = runtime?.env;
+  const env = getRuntimeEnv(locals);
+  const configError = getConfigErrorMessage(env);
 
-  if (!hasFeishuBitableConfig(env) && !env?.BOOKING_WEBHOOK_URL) {
+  if (configError) {
     return json(500, {
       ok: false,
-      message: "缺少飞书多维表格或 webhook 的环境变量配置"
+      message: configError
     });
   }
 
